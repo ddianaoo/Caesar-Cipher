@@ -1,35 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caesar Cipher</title>
-    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-<div class="base-cnt">
-    <div class="form-container">
-        <h3 class="mb-4 text-center">Caesar Cipher - Encrypt or Decrypt a File</h3>
-        <form method="POST" enctype="multipart/form-data" class="container">
-            <div class="form-group">
-                <label for="file">Upload .txt file:</label>
-                <input type="file" class="form-control" id="file" name="file" accept=".txt" required>
+{% extends 'base.html' %}
+
+{% block title %}
+Home page
+{% endblock %}
+
+{% block content %}
+<br>
+<br>
+<div class="container my-5">
+    <h2 class="text-center mb-5">Лабораторні Роботи</h2>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4 class="card-title">Лабораторна Робота №1</h4>
+            <p class="card-text">Найпростіші способи шифрування даних, шифр Цезаря.</p>
+
+            <button class="btn btn-success" 
+                data-bs-toggle="modal" 
+                data-bs-target="#fileModal" 
+                onclick="loadFileContent('{{ url_for('static', filename='docs/test_file1.txt') }}')">
+                Відкрити текстовий файл
+            </button>
+
+            <a class="btn btn-secondary" href="{{ url_for('caesar_cipher_view') }}">Перейти до алгоритму</a>
+            <button onclick="viewPdf('{{ url_for('static', filename='docs/Лабораторна робота 1.pdf') }}')" class="btn btn-primary">Відкрити PDF документу</button>
+        </div>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4 class="card-title">Лабораторна Робота №2</h4>
+            <p class="card-text">Найпростіші способи шифрування даних, шифруючі таблиці.</p>
+
+            <button class="btn btn-success" 
+                data-bs-toggle="modal" 
+                data-bs-target="#fileModal" 
+                onclick="loadFileContent('{{ url_for('static', filename='docs/test_file2.txt') }}')">
+                Відкрити текстовий файл
+            </button>
+
+            <a class="btn btn-secondary" href="{{ url_for('playfair_cipher_view') }}">Перейти до алгоритму</a>
+            <button onclick="viewPdf('{{ url_for('static', filename='docs/Лабораторна робота 2.pdf') }}')" class="btn btn-primary">Відкрити PDF документу</button>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="fileModal" tabindex="-1" aria-labelledby="fileModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="file-name"></h5>
+                </div>
+                <div class="modal-body">
+                    <pre id="file-content" class="border p-3"></pre>
+                    <a href="{{ url_for('static', filename='docs/test_file2.txt') }}" 
+                       class="btn btn-success wide-btn" download="test_file2.txt">Скачати Файл</a>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="shift">Shift (Key):</label>
-                <input type="number" class="form-control" id="shift" name="shift" value="19">
-            </div>
-            <div class="form-group">
-                <label for="mode">Mode:</label>
-                <select class="form-control" id="mode" name="mode">
-                    <option value="encode">Encrypt</option>
-                    <option value="decode">Decrypt</option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-dark btn-block">Submit</button>
-        </form>
+        </div>
     </div>
 </div>
-</body>
-</html>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function viewPdf(url) {
+        window.open(url, '_blank');
+    }
+
+    function loadFileContent(filename) {
+        fetch(filename)
+            .then(response => response.text())
+            .then(text => {
+                document.getElementById('file-name').innerText = filename.split('/')[3];
+                document.getElementById('file-content').innerText = text;
+                var myModal = new bootstrap.Modal(document.getElementById('fileModal'));
+                myModal.show();
+            })
+            .catch(err => console.log('Error loading file:', err));
+    }
+</script>
+{% endblock %}

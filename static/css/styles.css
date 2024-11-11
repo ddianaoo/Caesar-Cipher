@@ -14,3 +14,14 @@
     align-items: center;
     min-height: 100vh;
 }
+
+.navbar-custom {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1030;
+    padding: 10px 20px;
+}
+.wide-btn {
+    width: 100%;
+}

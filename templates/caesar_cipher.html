@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Caesar Cipher
+{% endblock %}
+
+{% block content %}
+<div class="base-cnt">
+    <div class="form-container">
+        <h3 class="mb-4 text-center">Caesar Cipher - Encrypt or Decrypt a File</h3>
+        <form method="POST" enctype="multipart/form-data" class="container">
+            <div class="form-group">
+                <label for="file">Upload .txt file:</label>
+                <input type="file" class="form-control" id="file" name="file" accept=".txt" required>
+            </div>
+            <div class="form-group">
+                <label for="shift">Shift (Key):</label>
+                <input type="number" class="form-control" id="shift" name="shift" value="19">
+            </div>
+            <div class="form-group">
+                <label for="mode">Mode:</label>
+                <select class="form-control" id="mode" name="mode">
+                    <option value="encode">Encrypt</option>
+                    <option value="decode">Decrypt</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-dark btn-block wide-btn mt-3">Submit</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
